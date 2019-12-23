@@ -13,7 +13,7 @@ class Database(object):
     @staticmethod  # means, we are not using self in this method
     def initialize():
         client = pymongo.MongoClient(Database.URI)
-        Database.database = client['posts']
+        Database.database = client['fullstack']             # changed from 'posts'
 
     @staticmethod
     def insert(collection, data):
