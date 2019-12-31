@@ -1,7 +1,9 @@
+import uuid
 from datetime import datetime
 
+from flask import session
+
 from src.common.database import Database
-from flask import Flask, session
 
 __author__ = 'Hunter Files'
 
@@ -10,9 +12,10 @@ from src.models.blog import Blog
 
 
 class User(object):
-    def __init__(self, email, password):
+    def __init__(self, email, password, _id=None):
         self.email = email
         self.password = password
+        self._id = uuid.uuid4().hex if _id is None else _id
 
     @classmethod
     def get_by_email(cls, email):
@@ -29,7 +32,7 @@ class User(object):
             return cls(**data)
 
     @staticmethod
-    def login_valid(self, email, password):
+    def login_valid(email, password):
         # User.login_valid("hunter.files.me", password)
         # Check whether a user's email matches the password they sent us
         user = User.get_by_email(email)
@@ -79,7 +82,7 @@ class User(object):
         blog.save_to_mongo()
 
     @staticmethod
-    def new_post(self, blog_id, title, content, date=datetime.datetime.utcnow()):
+    def new_post(self, blog_id, title, content, date=datetime.utcnow()):
         # blog_id, title, content, author, created_date=datetime.datetime.utcnow()
         # find out what blog it is
         blog = Blog.from_mongo(blog_id)

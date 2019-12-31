@@ -1,7 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
-    <form>
-        <input type="text" id="email">
-        <input type="password" id="password">
+    <form id="login-form" action="/login" method="post">
+        Email: <br>
+        <input type="text" id="email" name="email">
+        <br>Password: <br>
+        <input type="password" id="password" name="password">
+        <br>
+        <input type="submit" id="submit-button">
     </form>
 {% endblock %}
