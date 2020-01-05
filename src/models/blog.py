@@ -17,49 +17,38 @@ class Blog(object):
         self._id = uuid.uuid4().hex if _id is None else _id
 
     def new_post(self, title, content, date=datetime.datetime.utcnow()):
-
-        """     OLD...
-        title = input("Enter post title: ")
-        content = input("Enter post content: ")
-        # TODO CHANGE DEFAULT VALUE FOR DATETIME
-        date = input("Enter post date, or leave blank for today ( in format DDMMYYYY): ")
-        if date == '':
-            date=datetime.datetime.utcnow()
-        else:
-            date = datetime.datetime.strptime(date, "%d%m%Y")
-        """
         post = Post(blog_id=self._id,
                     title=title,
                     content=content,
                     author=self.author,
                     created_date=date)
-        post.saveToMongo()
+        post.save_to_mongo()
 
     def get_posts(self):
-        return Post.fromBlog(self._id)
+        return Post.from_blog(self._id)
 
     # uses the format from json and inserts it into database as data
     def save_to_mongo(self):
         Database.insert(collection='blogs',
                         data=self.json())
 
-    # The format of the object we are using.
     def json(self):
         return {
-            'id': self._id,
-            'author_id': self.author_id,
-            # 'blog_id': self.blog_id,
             'author': self.author,
+            'author_id': self.author_id,
             'title': self.title,
             'description': self.description,
+            '_id': self._id
         }
 
     # dynamically changes to whatever class the method is created in. If we change the name from 'Blog' to 'Object',
     # it uses 'Object'
     @classmethod
-    def from_mongo(cls, id):
+    def from_mongo(cls, _id):
+        # blog.from_mongo(blog_id) not "id"
         blog_data = Database.find_one(collection='blogs',
-                                      query={'_id': id})
+                                      query={'_id': _id})
+
         return cls(**blog_data)
 
     @classmethod

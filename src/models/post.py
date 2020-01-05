@@ -24,10 +24,10 @@ class Post(object):
         self.content = content
         self.author = author
         self.created_date = created_date
-        self.id = uuid.uuid4().hex if _id is None else _id
+        self.id = uuid.uuid4().hex if _id is None else _id  # should "self.id" be "self._id"
 
     # post = Post(blog_id="123", title="a title", content="some content", author="Hunter", datetime.datetime.utcnow())
-    def saveToMongo(self):
+    def save_to_mongo(self):
         Database.insert(collection='posts',
                         data=self.json())
 
@@ -43,11 +43,11 @@ class Post(object):
         }
 
     @classmethod
-    def fromMongo(cls, id):
+    def from_mongo(cls, id):
         post_data = Database.find_one(collection='posts', query={'_id': id})
         return cls(**post_data)
 
     @staticmethod
-    def fromBlog(id):
+    def from_blog(id):
         # return Database.find(collection='posts', query={'blog_id': id})
         return [post for post in Database.find(collection='posts', query={'blog_id': id})]

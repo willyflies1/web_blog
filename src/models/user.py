@@ -82,14 +82,13 @@ class User(object):
         blog.save_to_mongo()
 
     @staticmethod
-    def new_post(self, blog_id, title, content, date=datetime.utcnow()):
-        # blog_id, title, content, author, created_date=datetime.datetime.utcnow()
+    def new_post(self, _id, title, content, date=datetime.utcnow()):
+        # _id, title, content, author, created_date=datetime.datetime.utcnow()
         # find out what blog it is
-        blog = Blog.from_mongo(blog_id)
+        blog = Blog.from_mongo(_id)
         blog.new_post(title=title,
                       content=content,
                       date=date)
-
 
     def save_to_mongo(self):
         Database.insert('users', self.json())

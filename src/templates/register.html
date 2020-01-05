@@ -1,11 +1,25 @@
 {% extends "base.html" %}
 {% block content %}
-    <form id="register-form" action="/auth/register" method="post">
-        Email: <br>
-        <input type="text" id="email" name="email">
-        <br>Password: <br>
-        <input type="password" id="password" name="password">
-        <br>
-        <input type="submit" id="submit-button">
+<div class="container page-form">
+
+<!--
+    {% if failed_login=True %}
+        <div>
+            <large id="loginFailed" class="text text-muted">LoginFailed would </large>
+        </div>
+-->
+
+    <form id="login-form" action="/auth/register" method="post">
+        <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="text" id="email" name="email" class="form-control" aria-describedby="emailHelp">
+            <small id="emailHelp" class="form_text text-muted">We'll never share your email with anyone else</small>
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" class="form-control">
+        </div>
+        <button type="submit" id ="submit-button" class="btn btn-success">Register</button>
     </form>
+<div>
 {% endblock %}
